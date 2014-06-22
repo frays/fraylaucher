@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
-import com.fray.launcher.Main;
 import com.fray.launcher.R;
 import com.fray.launcher.ViewFactory;
 
@@ -67,7 +66,7 @@ public class AppAdapter extends BaseAdapter implements AdapterView.OnItemClickLi
                 } catch (Exception e) {
                     // emply
                 }
-                if (aname != null && !aname.equals(selfName))
+                if (pname != null && !pname.equals(selfName))
                     rc.add(pname + "%" + aname + "%" + hname);
             }
         }
@@ -110,6 +109,7 @@ public class AppAdapter extends BaseAdapter implements AdapterView.OnItemClickLi
 }
 
 class AppComparator implements java.util.Comparator<String> {
+    @Override
     public int compare(String a, String b) {
         if (a == null && b == null) {
             return 0;
