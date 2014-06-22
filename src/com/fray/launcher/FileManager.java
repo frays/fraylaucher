@@ -33,7 +33,11 @@ public class FileManager extends Activity implements View.OnClickListener {
 
         if (lib_progress != null)
             if (numElems != 0)
-                lib_progress.setText("[" + (progress/size + 1) + "/" + (numElems/size + (numElems % size == 0 ? 0 : 1)) +"]");
+                lib_progress.setText(
+                        "[" +
+                        (progress/size + 1) + "/" + (numElems/size + (numElems % size == 0 ? 0 : 1))
+                        +"]"
+                );
             else
                 lib_progress.setText("[1/1]");
 

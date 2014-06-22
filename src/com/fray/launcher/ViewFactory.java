@@ -1,6 +1,7 @@
 package com.fray.launcher;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,13 +16,15 @@ public class ViewFactory {
 
     private static ViewFactory factory;
     private static Context context;
+    private static LayoutInflater inflater;
 
-    private ViewFactory(){};
+    private ViewFactory(){}
 
     public static void setContext(Context ctx) {
         if (factory == null)
             factory = new ViewFactory();
         context = ctx;
+        inflater = LayoutInflater.from(ctx);
     }
 
     public static ViewFactory Instace() {
@@ -41,10 +44,10 @@ public class ViewFactory {
         if (v == null) {
             switch (type) {
                 case GRID:
-                    v = Main.inflater.inflate(R.layout.file_item, null);
+                    v = inflater.inflate(R.layout.file_item, null);
                     break;
                 default:
-                    v = Main.inflater.inflate(R.layout.elem, null);
+                    v = inflater.inflate(R.layout.elem, null);
             }
 
             if(v == null){

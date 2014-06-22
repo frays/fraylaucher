@@ -31,8 +31,8 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
         public static final String START_TIME = "StartTime";
         public static final String END_TIME = "EndTime";
         public static final String PROGRESS = "Progress";
-        public static final String APPLICATION = "Application";
-        public static String EXTRA_ATTRIBUTES = "ExtraAttributes";
+        //public static final String APPLICATION = "Application";
+        //public static String EXTRA_ATTRIBUTES = "ExtraAttributes";
 
         // need read at runtime
         private static boolean sColumnIndexesInitialized = false;
@@ -41,8 +41,8 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
         private static int sColumnStartTime = -1;
         private static int sColumnEndTime = -1;
         private static int sColumnProgress = -1;
-        private static int sColumnApplication = -1;
-        private static int sColumnExtraAttributes = -1;
+        //private static int sColumnApplication = -1;
+        //private static int sColumnExtraAttributes = -1;
         
         public static ContentValues createColumnData(OnyxHistoryEntry entry)
         {
@@ -51,7 +51,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
             values.put(START_TIME, entry.getStartTime() == null ? 0 : entry.getStartTime().getTime());
             values.put(END_TIME, entry.getEndTime() == null ? 0 : entry.getEndTime().getTime());
             values.put(PROGRESS, entry.getProgress() == null ? "" : entry.getProgress().toString());
-            values.put(APPLICATION, entry.getApplication());
+            //values.put(APPLICATION, entry.getApplication());
 
             return values;
         }
@@ -64,8 +64,8 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
                 sColumnStartTime = c.getColumnIndex(START_TIME);
                 sColumnEndTime = c.getColumnIndex(END_TIME);
                 sColumnProgress = c.getColumnIndex(PROGRESS);
-                sColumnApplication = c.getColumnIndex(APPLICATION);
-                sColumnExtraAttributes = c.getColumnIndex(EXTRA_ATTRIBUTES);
+                //sColumnApplication = c.getColumnIndex(APPLICATION);
+                //sColumnExtraAttributes = c.getColumnIndex(EXTRA_ATTRIBUTES);
                 
                 sColumnIndexesInitialized = true;
             }
@@ -75,8 +75,8 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
             long start_time = c.getLong(sColumnStartTime);
             long end_time = c.getLong(sColumnEndTime);
             OnyxBookProgress progress = OnyxBookProgress.fromString(c.getString(sColumnProgress));
-            String application = c.getString(sColumnApplication);
-            String extra_attributes = c.getString(sColumnExtraAttributes);
+            //String application = c.getString(sColumnApplication);
+            //String extra_attributes = c.getString(sColumnExtraAttributes);
             
             OnyxHistoryEntry entry = new OnyxHistoryEntry();
             entry.setId(id);
@@ -86,8 +86,8 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
             assert(end_time > 0);
             entry.setEndTime(new Date(end_time));
             entry.setProgress(progress);
-            entry.setApplication(application);
-            entry.setExtraAttributes(extra_attributes);
+            //entry.setApplication(application);
+            //entry.setExtraAttributes(extra_attributes);
 
             return entry;
         }
@@ -98,7 +98,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
     private Date mStartTime = null;
     private Date mEndTime = null;
     private OnyxBookProgress mProgress = null;
-    private String mApplication = null;
+    //private String mApplication = null;
     
     public OnyxHistoryEntry()
     {
@@ -113,7 +113,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
     /**
      * Additional attributes for flexibility
      */
-    private String mExtraAttributes = null; 
+    //private String mExtraAttributes = null;
     
     public long getId()
     {
@@ -161,7 +161,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
         this.mProgress = progress;
     }
     
-    public String getApplication()
+    /*public String getApplication()
     {
     	return mApplication;
     }
@@ -176,6 +176,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
      * 
      * @return
      */
+    /*
     public String getExtraAttributes()
     {
         return mExtraAttributes;
@@ -184,7 +185,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
     {
         this.mExtraAttributes = extraAttributes;
     }
-    
+    */
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -222,7 +223,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
 	    dest.writeString(mMD5);
 	    dest.writeString(SerializationUtil.dateToString(mStartTime));
 	    dest.writeString(SerializationUtil.dateToString(mEndTime));
-	    dest.writeString(mApplication);
+	    //dest.writeString(mApplication);
 	}
 	
 	public void readFromParcel(Parcel source)
@@ -231,7 +232,7 @@ public class OnyxHistoryEntry implements Serializable, Parcelable
     	mMD5 = source.readString();
     	mStartTime = SerializationUtil.dateFromString(source.readString());
     	mEndTime = SerializationUtil.dateFromString(source.readString());
-    	mApplication = source.readString();
+    	//mApplication = source.readString();
 	}
 	
 	public static final Parcelable.Creator<OnyxHistoryEntry> CREATOR 

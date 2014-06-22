@@ -15,21 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.fray.launcher.adapters.AppAdapter;
+import com.onyx.android.sdk.data.AscDescOrder;
 import com.onyx.android.sdk.data.cms.OnyxCmsCenter;
+import com.onyx.android.sdk.data.cms.OnyxHistoryEntry;
 import com.onyx.android.sdk.data.cms.OnyxMetadata;
 import com.onyx.android.sdk.data.cms.OnyxThumbnail;
 import com.onyx.android.sdk.data.util.RefValue;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 public class Main extends Activity implements View.OnClickListener {
 
 
-    public static final String PROVIDER_AUTHORITY = "com.onyx.android.sdk.OnyxCmsProvider";
-    public static final String DB_METADATA = "library_metadata";
-    public static final String DB_HISTORY = "library_history";
     public static final String TAG = "fray_launcher";
     public static final String selfName = "com.fray.launcher";
     boolean dbLock = false;
@@ -70,11 +67,6 @@ public class Main extends Activity implements View.OnClickListener {
                 imgBook.setImageBitmap(btmp.getValue());
             Log.i(TAG,"Image was loaded");
 
-            //String[] pr = progress.split("/");
-
-            //ProgressBar pb = (ProgressBar)findViewById(R.id.pbRead);
-            //double pgrss = Integer.parseInt(pr[0])*100/Integer.parseInt(pr[1]);
-            //pb.setProgress((int)pgrss);
         }
         Log.i(TAG,"All Views were successfully updated");
 
@@ -104,7 +96,7 @@ public class Main extends Activity implements View.OnClickListener {
                     startActivity(getPackageManager().getLaunchIntentForPackage("com.neverland.alreader"));
                 }
                 catch (Exception e) {
-                    Toast.makeText(this,R.string.appnotstarted,Toast.LENGTH_SHORT);
+                    Toast.makeText(this,R.string.appnotstarted,Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imgFM:
@@ -121,7 +113,12 @@ public class Main extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.imgSync:
-                startActivity(getPackageManager().getLaunchIntentForPackage("lysesoft.andsmb"));
+                try {
+                    startActivity(getPackageManager().getLaunchIntentForPackage("lysesoft.andsmb"));
+                }
+                catch (Exception e) {
+                    Toast.makeText(this,R.string.appnotstarted,Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.imgLib:
                 intent = new Intent(this,FileManager.class);
@@ -161,22 +158,21 @@ public class Main extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    String timeFormat(String key)
+    String timeFormat(long ms)
     {
         String result;
 
-        long k = Integer.parseInt(key);
-        result = (k % 60) + "с"; // секунды
-        k /= 60;
+        result = (ms % 60) + "с"; // секунды
+        ms /= 60;
 
-        if (k > 0) // минуты
+        if (ms > 0) // минуты
         {
-            result = (k % 60) + "м:" + result;
-            k /= 60;
+            result = (ms % 60) + "м:" + result;
+            ms /= 60;
         }
-        if ( k > 0)
+        if ( ms > 0)
         {
-            result = k + "ч:" + result;
+            result = ms + "ч:" + result;
         }
         return result;
     }
@@ -184,58 +180,22 @@ public class Main extends Activity implements View.OnClickListener {
     private String getHistory()
     {
         String result = "";
-        Hashtable hist = new Hashtable();
 
-        Cursor c = getContentResolver().query(
-                        Uri.parse("content://" + PROVIDER_AUTHORITY + "/" + DB_HISTORY),
-                new String[]{"MD5", "StartTime", "EndTime"},null,null,null);
-        if (c != null)
-        {
-            long k = 0, st, et;
-            String s;
-            c.moveToFirst();
-            do
-            {
-                s = c.getString(0);
-                if (hist.containsKey(s))
-                {
-                    k = Long.parseLong((String)hist.get(s));
-                }
-                else k = 0;
-                st = c.getLong(1);
-                et = c.getLong(2);
-                k += (et - st)/1000;
-                hist.put(s,String.valueOf(k));
-            } while (c.moveToNext());
+        List<OnyxMetadata> recentReadings = new ArrayList<OnyxMetadata>();
+        OnyxCmsCenter.getRecentReading(this, null, 10, AscDescOrder.Asc,recentReadings);
 
-            String[] proj = {"MD5","Name","Title","Authors","Location","Progress"};
-            String title = null;
-            c.close();
-            c = getContentResolver().query(
-                    Uri.parse("content://" + PROVIDER_AUTHORITY + "/" + DB_METADATA),
-                    proj,
-                    "LastAccess is not null AND LastAccess != 0",null,
-                    "LastAccess DESC");
-            if (c != null)
-            {
-                c.moveToFirst();
-                do
-                {
-                    String md5 = c.getString(0);
-                    if (hist.containsKey(md5))
-                    {
-                        title = c.getString(2);
-                        if (title == null)
-                        {
-                            title = c.getString(1);
-                        }
-                        result += c.getString(3) + " - " + title + " (" + c.getString(5) + "): " + timeFormat((String)hist.get(c.getString(0))) + "\n";
-                    }
-                }while (c.moveToNext());
+        for (OnyxMetadata data : recentReadings) {
+
+            List<OnyxHistoryEntry> historyEntries = OnyxCmsCenter.getHistorysByMD5(this, data.getMD5());
+            long time = 0;
+
+            for (OnyxHistoryEntry entry: historyEntries) {
+                time += (entry.getEndTime().getTime() - entry.getStartTime().getTime())/1000;
             }
 
+            result += data.getTitle() + ": " + timeFormat(time) + '\n';
         }
-        c.close();
+
         return result;
     }
 
@@ -250,6 +210,7 @@ public class Main extends Activity implements View.OnClickListener {
         return super.onCreateDialog(id);
     }
 
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if (keyCode != KeyEvent.KEYCODE_BACK)

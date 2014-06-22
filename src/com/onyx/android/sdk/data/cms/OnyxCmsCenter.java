@@ -205,7 +205,7 @@ public class OnyxCmsCenter
      * get metadata of file, return null if failed
      * 
      * @param context
-     * @param file
+     * @param filePath
      * @return
      */
     public static OnyxMetadata getMetadata(Context context, String filePath)
@@ -603,13 +603,7 @@ public class OnyxCmsCenter
 
     public static boolean insertHistory(Context context, OnyxHistoryEntry historyEntry)
     {
-    	return insertHistory(context, context.getPackageName(), historyEntry);
-    }
-    
-    public static boolean insertHistory(Context context, String application, OnyxHistoryEntry historyEntry)
-    {
-    	historyEntry.setApplication(application);
-    	
+
         Uri result = context.getContentResolver().insert(
         		OnyxHistoryEntry.CONTENT_URI,
         		OnyxHistoryEntry.Columns.createColumnData(historyEntry));
@@ -633,8 +627,6 @@ public class OnyxCmsCenter
     
     public static boolean updateHistory(Context context, String application, OnyxHistoryEntry onyxHistoryEntry)
     {
-    	onyxHistoryEntry.setApplication(application);
-    	
         Uri row = Uri.withAppendedPath(OnyxHistoryEntry.CONTENT_URI,
                 String.valueOf(onyxHistoryEntry.getId()));
         int count = context.getContentResolver().update(row,
@@ -679,15 +671,10 @@ public class OnyxCmsCenter
     }
     
     public static boolean deleteHistoryByMD5(Context context, String md5) {
-    	return deleteHistoryByMD5(context, context.getPackageName(), md5);
-    }
-    
-    public static boolean deleteHistoryByMD5(Context context, String application, String md5) {
     	int result_code = context.getContentResolver().delete(
     			OnyxHistoryEntry.CONTENT_URI , 
-    			OnyxHistoryEntry.Columns.APPLICATION + " = ? AND "
-    			+ OnyxHistoryEntry.Columns.MD5 + " = ?" ,
-    			new String[] { application, md5 });
+    			OnyxHistoryEntry.Columns.MD5 + " = ?" ,
+    			new String[] { md5 });
     	return result_code > 0 ? true : false;
 	}
 
