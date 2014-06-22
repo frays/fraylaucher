@@ -23,9 +23,11 @@ import java.util.List;
 public class AppAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
     private static List<String> packages;
     private Context context;
+    private static String selfName;
 
     public static void updateAppList(Context con)
     {
+        selfName = con.getPackageName();
         packages = createAppList(con.getPackageManager());
     }
 
@@ -65,7 +67,7 @@ public class AppAdapter extends BaseAdapter implements AdapterView.OnItemClickLi
                 } catch (Exception e) {
                     // emply
                 }
-                if (aname != null && !aname.equals(Main.selfName))
+                if (aname != null && !aname.equals(selfName))
                     rc.add(pname + "%" + aname + "%" + hname);
             }
         }

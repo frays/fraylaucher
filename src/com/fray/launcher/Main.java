@@ -28,7 +28,6 @@ public class Main extends Activity implements View.OnClickListener {
 
 
     public static final String TAG = "fray_launcher";
-    public static final String selfName = "com.fray.launcher";
     boolean dbLock = false;
 
     private void setLastReaded()
