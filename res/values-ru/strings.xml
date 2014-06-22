@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fray Launcher</string>
+    <string name="nowreading">Сейчас читаю</string>
+    <string name="history">История</string>
+    <string name="hasnopermission">Недостаточно прав</string>
+    <string name="itsroot">Выше нельзя</string>
+    <string name="appnotstarted">Не могу запустить приложение</string>
+</resources>

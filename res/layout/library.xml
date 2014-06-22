@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@color/normal_bg">
+
+    <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="40dp" android:orientation="horizontal" android:weightSum="1">
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/rbAll" android:checked="true" android:textColor="@color/normal_text"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/rbAuthor" android:checked="false" android:textColor="@color/normal_text"/>
+    </RadioGroup>
+    <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/liblst" android:numColumns="4"/>
+</LinearLayout>

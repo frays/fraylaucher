@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fray Launcher</string>
+    <string name="nowreading">Now reading</string>
+    <string name="history">History</string>
+    <string name="hasnopermission">Can`t change dir</string>
+    <string name="itsroot">It is root directory</string>
+    <string name="appnotstarted">Can't start app</string>
+</resources>
