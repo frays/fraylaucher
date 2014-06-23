@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/history" android:id="@id/mainMenu_history"/>
+    <item android:id="@id/mainMenu_update" android:title="@string/update_screen"/>
+    <item android:id="@+id/mainMenu_appScan" android:title="@string/scan_applications"/>
+</menu>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mainMenu_history" type="id"/>
+    <item name="mainMenu_update" type="id"/>
+    <item name="mainMenu_appScan" type="id"/>
+</resources>

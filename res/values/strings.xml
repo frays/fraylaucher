@@ -6,4 +6,6 @@
     <string name="hasnopermission">Can\'t change dir</string>
     <string name="itsroot">It is root directory</string>
     <string name="appnotstarted">Can\'t start app</string>
+    <string name="update_screen">Update screen</string>
+    <string name="scan_applications">Rescan applications</string>
 </resources>

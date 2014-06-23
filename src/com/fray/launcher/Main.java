@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -22,7 +20,8 @@ import com.onyx.android.sdk.data.cms.OnyxMetadata;
 import com.onyx.android.sdk.data.cms.OnyxThumbnail;
 import com.onyx.android.sdk.data.util.RefValue;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Activity implements View.OnClickListener {
 
@@ -133,28 +132,26 @@ public class Main extends Activity implements View.OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-
-        menu.add(0,1,0,"История");
-        menu.add(0,2,0,"Обновить книгу");
-        menu.add(0,3,0,"Пересканировать список приложений");
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case 1:
+            case R.id.mainMenu_history:
                 showDialog(1);
                 break;
-            case 2:
+            case R.id.mainMenu_update:
                 setLastReaded();
-            case 3:
+            case R.id.mainMenu_appScan:
                 AppAdapter.updateAppList(this);
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     String timeFormat(long ms)
@@ -181,7 +178,7 @@ public class Main extends Activity implements View.OnClickListener {
         String result = "";
 
         List<OnyxMetadata> recentReadings = new ArrayList<OnyxMetadata>();
-        OnyxCmsCenter.getRecentReading(this, null, 10, AscDescOrder.Asc,recentReadings);
+        OnyxCmsCenter.getRecentReading(this, null, 10, AscDescOrder.Desc, recentReadings);
 
         for (OnyxMetadata data : recentReadings) {
 

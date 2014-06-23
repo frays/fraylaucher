@@ -6,4 +6,6 @@
     <string name="hasnopermission">Недостаточно прав</string>
     <string name="itsroot">Выше нельзя</string>
     <string name="appnotstarted">Не могу запустить приложение</string>
+    <string name="update_screen">Обновить экран</string>
+    <string name="scan_applications">Пересканировать приложения</string>
 </resources>
