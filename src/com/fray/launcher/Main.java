@@ -29,44 +29,39 @@ public class Main extends Activity implements View.OnClickListener {
     public static final String TAG = "fray_launcher";
     boolean dbLock = false;
 
-    private void setLastReaded()
-    {
+    private void setLastReading() {
         List<OnyxMetadata> lst = new ArrayList<OnyxMetadata>();
         OnyxCmsCenter.getRecentReadings(this, lst);
 
-        if (lst.size() != 0)
-        {
+        if (lst.size() != 0) {
             OnyxMetadata metadata = lst.get(0);
-            TextView twTitle = (TextView)findViewById(R.id.txtTitle);
-            TextView twAuthor = (TextView)findViewById(R.id.txtAuthor);
+            TextView twTitle = (TextView) findViewById(R.id.txtTitle);
+            TextView twAuthor = (TextView) findViewById(R.id.txtAuthor);
 
-            if (metadata.getTitle() != null)
-            {
+            if (metadata.getTitle() != null) {
                 twTitle.setText(metadata.getTitle());
                 twAuthor.setText(metadata.getAuthors().toString());
-            }
-            else
-            {
+            } else {
                 twTitle.setText(metadata.getName());
                 twAuthor.setHeight(0);
             }
 
-            TextView twRead = (TextView)findViewById(R.id.txtNow);
-            twRead.setText(getString(R.string.nowreading) + " (" + metadata.getProgress().toString() +"):");
+            TextView twRead = (TextView) findViewById(R.id.txtNow);
+            twRead.setText(getString(R.string.nowreading) + " (" + metadata.getProgress().toString() + "):");
 
-            ImageView imgBook = (ImageView)findViewById(R.id.imgBook);
+            ImageView imgBook = (ImageView) findViewById(R.id.imgBook);
             RefValue<Bitmap> btmp = new RefValue<Bitmap>();
 
-            OnyxCmsCenter.getThumbnail(this,metadata, OnyxThumbnail.ThumbnailKind.Large,btmp);
+            OnyxCmsCenter.getThumbnail(this, metadata, OnyxThumbnail.ThumbnailKind.Large, btmp);
 
             if (btmp.getValue() == null)
                 imgBook.setImageResource(R.drawable.book);
             else
                 imgBook.setImageBitmap(btmp.getValue());
-            Log.i(TAG,"Image was loaded");
+            Log.i(TAG, "Image was loaded");
 
         }
-        Log.i(TAG,"All Views were successfully updated");
+        Log.i(TAG, "All Views were successfully updated");
 
     }
 
@@ -76,29 +71,24 @@ public class Main extends Activity implements View.OnClickListener {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); // Убираем заголовок
         setContentView(R.layout.main);
 
-        AppAdapter.updateAppList(this); // Обновляем список приложений
-        setLastReaded(); // Считываем последнюю считанную книгу
         ViewFactory.setContext(this);
 
     }
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         Intent intent;
         dbLock = false;
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.nowR:
                 try {
                     startActivity(getPackageManager().getLaunchIntentForPackage("com.neverland.alreader"));
-                }
-                catch (Exception e) {
-                    Toast.makeText(this,R.string.appnotstarted,Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, R.string.appnotstarted, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imgFM:
-                intent = new Intent(this,FileManager.class);
+                intent = new Intent(this, FileManager.class);
                 intent.setAction(FileManager.ActionFM);
                 startActivity(intent);
                 break;
@@ -106,32 +96,30 @@ public class Main extends Activity implements View.OnClickListener {
                 startActivity(new Intent(Settings.ACTION_SETTINGS));
                 break;
             case R.id.imgApp:
-                intent = new Intent(this,FileManager.class);
+                intent = new Intent(this, FileManager.class);
                 intent.setAction(FileManager.ActionApps);
                 startActivity(intent);
                 break;
             case R.id.imgSync:
                 try {
                     startActivity(getPackageManager().getLaunchIntentForPackage("lysesoft.andsmb"));
-                }
-                catch (Exception e) {
-                    Toast.makeText(this,R.string.appnotstarted,Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, R.string.appnotstarted, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imgLib:
-                intent = new Intent(this,FileManager.class);
+                intent = new Intent(this, FileManager.class);
                 intent.setAction(FileManager.ActionLibrary);
                 startActivity(intent);
                 break;
 
             default:
-                Log.i(TAG,"Click by " + v.toString());
+                Log.i(TAG, "Click by " + v.toString());
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         return true;
@@ -139,13 +127,12 @@ public class Main extends Activity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.mainMenu_history:
                 showDialog(1);
                 break;
             case R.id.mainMenu_update:
-                setLastReaded();
+                setLastReading();
             case R.id.mainMenu_appScan:
                 AppAdapter.updateAppList(this);
                 break;
@@ -154,8 +141,7 @@ public class Main extends Activity implements View.OnClickListener {
         return true;
     }
 
-    String timeFormat(long ms)
-    {
+    String timeFormat(long ms) {
         String result;
 
         result = (ms % 60) + "с"; // секунды
@@ -166,15 +152,13 @@ public class Main extends Activity implements View.OnClickListener {
             result = (ms % 60) + "м:" + result;
             ms /= 60;
         }
-        if ( ms > 0)
-        {
+        if (ms > 0) {
             result = ms + "ч:" + result;
         }
         return result;
     }
 
-    private String getHistory()
-    {
+    private String getHistory() {
         String result = "";
 
         List<OnyxMetadata> recentReadings = new ArrayList<OnyxMetadata>();
@@ -185,8 +169,8 @@ public class Main extends Activity implements View.OnClickListener {
             List<OnyxHistoryEntry> historyEntries = OnyxCmsCenter.getHistorysByMD5(this, data.getMD5());
             long time = 0;
 
-            for (OnyxHistoryEntry entry: historyEntries) {
-                time += (entry.getEndTime().getTime() - entry.getStartTime().getTime())/1000;
+            for (OnyxHistoryEntry entry : historyEntries) {
+                time += (entry.getEndTime().getTime() - entry.getStartTime().getTime()) / 1000;
             }
 
             result += data.getTitle() + ": " + timeFormat(time) + '\n';
@@ -207,18 +191,22 @@ public class Main extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode != KeyEvent.KEYCODE_BACK)
-        {
-            return super.onKeyDown(keyCode,event);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_BACK) {
+            return super.onKeyDown(keyCode, event);
         }
-        if (!dbLock)
-        {
-            setLastReaded();
+        if (!dbLock) {
+            setLastReading();
             dbLock = true;
         }
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppAdapter.updateAppList(this); // Обновляем список приложений
+        setLastReading(); // Считываем последнюю считанную книгу
     }
 
 }
