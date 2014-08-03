@@ -37,11 +37,9 @@
                     android:id="@+id/rbList" android:checked="false"/>
         </RadioGroup>
     </RelativeLayout>
-    <GridView
-            android:layout_width="wrap_content"
-            android:layout_height="604dp"
-            android:id="@+id/libView" android:numColumns="4" android:longClickable="true"
-            android:choiceMode="multipleChoice"/>
+    <view android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          class="com.fray.launcher.FrayGridView" android:id="@+id/libView" android:numColumns="4"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.widget.*;
 import com.fray.launcher.FileManager;
 import com.fray.launcher.R;
 import com.fray.launcher.ViewFactory;
+import com.fray.launcher.FrayTools;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -55,7 +56,7 @@ public class FMAdapter extends BaseAdapter implements AdapterView.OnItemClickLis
             {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(files[i]), get_mime_by_filename(files[i].getName()));
+                intent.setDataAndType(Uri.fromFile(files[i]), FrayTools.get_mime_by_filename(files[i].getName()));
                 try {
                     context.startActivity(intent);
                 }
@@ -64,24 +65,6 @@ public class FMAdapter extends BaseAdapter implements AdapterView.OnItemClickLis
                 }
             }
         }
-    }
-
-    public String get_mime_by_filename(String filename){
-        String ext;
-        String type;
-
-        int lastdot = filename.lastIndexOf(".");
-        if(lastdot > 0){
-            ext = filename.substring(lastdot + 1);
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            type = mime.getMimeTypeFromExtension(ext);
-            if(type != null) {
-                return type;
-            }
-            if (ext.equals("fb2"))
-                return "application/x-fictionbook";
-        }
-        return "*/*";
     }
 
     public FMAdapter(Context con)

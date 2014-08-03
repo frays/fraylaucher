@@ -1,22 +1,15 @@
 package com.fray.launcher;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.fray.launcher.adapters.AppAdapter;
-import com.onyx.android.sdk.data.cms.OnyxCmsCenter;
-import com.onyx.android.sdk.data.cms.OnyxMetadata;
-import com.onyx.android.sdk.data.cms.OnyxThumbnail;
+import com.onyx.android.sdk.data.cms.*;
 import com.onyx.android.sdk.data.util.RefValue;
 
 import java.util.ArrayList;
@@ -67,7 +60,7 @@ public class BookFragment extends Fragment {
             }
 
             TextView twRead = (TextView) getActivity().findViewById(R.id.txtNow);
-            twRead.setText(getString(R.string.nowreading) + " (" + metadata.getProgress().toString() + "):");
+//            twRead.setText(getString(R.string.nowreading) + " (" + metadata.getProgress().toString() + "):");
 
             ImageView imgBook = (ImageView) getActivity().findViewById(R.id.imgBook);
             RefValue<Bitmap> btmp = new RefValue<Bitmap>();
@@ -79,6 +72,25 @@ public class BookFragment extends Fragment {
             else
                 imgBook.setImageBitmap(btmp.getValue());
             Log.i(TAG, "Image was loaded");
+
+            OnyxBookProgress progress = metadata.getProgress();
+
+            int percent = (int)(progress.getCurrent() / (float)progress.getTotal() * 100);
+
+            ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.pbProgress);
+            progressBar.setProgress(percent);
+            TextView progressText = (TextView)getActivity().findViewById(R.id.twProgress);
+            progressText.setText(progress.toString());
+
+            List <OnyxHistoryEntry> historysList = OnyxCmsCenter.getHistorysByMD5(getActivity(), metadata.getMD5());
+
+            long time = 0;
+            for (OnyxHistoryEntry entry : historysList) {
+                time += (entry.getEndTime().getTime() - entry.getStartTime().getTime()) / 1000;
+            }
+            TextView TimeReadText = (TextView)getActivity().findViewById(R.id.twReadTime);
+            float totalTime = percent > 0 ? time / percent * 100 : time*100;
+            TimeReadText.setText(Main.timeFormat(time) + " / " + Main.timeFormat((int)totalTime));
 
         }
         Log.i(TAG, "All Views were successfully updated");

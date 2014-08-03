@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -12,16 +11,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.*;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.fray.launcher.adapters.AppAdapter;
 import com.onyx.android.sdk.data.AscDescOrder;
 import com.onyx.android.sdk.data.cms.OnyxCmsCenter;
 import com.onyx.android.sdk.data.cms.OnyxHistoryEntry;
 import com.onyx.android.sdk.data.cms.OnyxMetadata;
-import com.onyx.android.sdk.data.cms.OnyxThumbnail;
-import com.onyx.android.sdk.data.util.RefValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +50,15 @@ public class Main extends FragmentActivity implements View.OnClickListener {
                     .commit();
         }
 
+        fragment = fm.findFragmentById(R.id.fragmentButtons);
+
+        if (fragment == null) {
+            fragment = new LastsFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragmentLasts, fragment)
+                    .commit();
+        }
+
         ViewFactory.setContext(this);
 
     }
@@ -81,18 +85,16 @@ public class Main extends FragmentActivity implements View.OnClickListener {
     }
 
     public static String timeFormat(long ms) {
-        String result;
-
-        result = (ms % 60) + "с"; // секунды
-        ms /= 60;
+        String result = "";
+        ms /= 60; // секунды
 
         if (ms > 0) // минуты
         {
-            result = (ms % 60) + "м:" + result;
+            result = (ms % 60) + "м" + result;
             ms /= 60;
         }
         if (ms > 0) {
-            result = ms + "ч:" + result;
+            result = ms + "ч " + result;
         }
         return result;
     }

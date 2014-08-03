@@ -24,7 +24,7 @@ public class LibraryAdapter extends BaseAdapter implements AdapterView.OnItemCli
     public LibraryAdapter(Context context) {
         this.context = context;
         ArrayList lst = new ArrayList();
-        OnyxCmsCenter.getLibraryItems(context, SortOrder.CreationTime, AscDescOrder.Desc,"fb2,epub",100,lst);
+        OnyxCmsCenter.getLibraryItems(context, SortOrder.CreationTime, AscDescOrder.Desc,"fb2,zip,epub",100,lst);
         data = new OnyxLibraryItem[lst.size()];
         data = (OnyxLibraryItem[])lst.toArray(data);
     }

@@ -7,11 +7,12 @@
         android:background="#000000">
     <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fragmentBook">
+            android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fragmentBook"
+            android:layout_margin="5dp">
     </FrameLayout>
     <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp" android:id="@+id/fragmentLasts" android:layout_margin="5dp">
     </FrameLayout>
     <FrameLayout
             android:layout_width="fill_parent"

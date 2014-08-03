@@ -64,7 +64,7 @@ public class FileManager extends Activity implements View.OnClickListener {
 
 
         ImageButton butt = (ImageButton)findViewById(R.id.lib_up);
-        g = (GridView)findViewById(R.id.libView);
+        g = (FrayGridView)findViewById(R.id.libView);
         String action = getIntent().getAction();
 
 
@@ -180,6 +180,12 @@ public class FileManager extends Activity implements View.OnClickListener {
         }
         //Log.i("KEY_DOWNED","ID: " + keyCode);
         return false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setPageNum(0);
     }
 
 }
