@@ -5,82 +5,16 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="#000000">
-    <LinearLayout
-            android:orientation="horizontal"
+    <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_weight="2" android:baselineAligned="false"
-            android:background="@color/normal_bg" android:layout_margin="5dp" android:onClick="onClick"
-            android:longClickable="false" android:id="@+id/nowR">
-        <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight="3">
-            <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/imgBook" android:layout_margin="10dp"
-                    android:background="@drawable/ramka" android:padding="1dip" android:layout_gravity="center"
-                    android:src="@drawable/book"/>
-        </FrameLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="2" android:layout_marginTop="10dp">
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nowreading"
-                    android:id="@+id/txtNow" android:autoText="false"
-                    android:textColor="@color/normal_text" android:paddingRight="10dp" android:paddingLeft="10dp"
-                    android:textSize="@dimen/tsize"/>
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtAuthor" android:textColor="@color/normal_text"
-                    android:paddingLeft="10dp" android:paddingRight="10dp" android:textSize="@dimen/tsize"
-                    android:text="Author" android:lines="1"
-                    android:gravity="center_vertical"/>
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtTitle" android:textColor="@color/normal_text"
-                    android:paddingLeft="10dp" android:password="false" android:paddingRight="10dp"
-                    android:textSize="@dimen/tsize" android:textStyle="bold" android:text="Title"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
+            android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fragmentBook">
+    </FrameLayout>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+    </FrameLayout>
+    <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_weight="7" android:layout_marginBottom="20dp">
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgLib" android:layout_weight="1" android:layout_margin="5dp"
-                android:background="@color/normal_bg" style="@style/icons_" android:src="@drawable/library"
-                android:onClick="onClick" android:scaleType="centerCrop"/>
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgSync" android:layout_weight="1" android:baselineAlignBottom="false"
-                android:adjustViewBounds="false" android:background="@color/normal_bg" android:layout_margin="5dp"
-                android:onClick="onClick" android:src="@drawable/sync" style="@style/icons_"
-                android:scaleType="centerCrop"/>
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgApp" android:layout_weight="1" android:background="@color/normal_bg"
-                android:layout_margin="5dp" android:onClick="onClick" android:src="@drawable/applications"
-                style="@style/icons_" android:scaleType="centerCrop"/>
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgFM" android:layout_weight="1" android:src="@drawable/filemanager"
-                android:layout_margin="5dp" android:background="@color/normal_bg" android:onClick="onClick"
-                style="@style/icons_" android:scaleType="centerCrop"/>
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgSet" android:layout_weight="1" android:src="@drawable/settings"
-                android:background="@color/normal_bg" android:layout_margin="5dp" android:onClick="onClick"
-                style="@style/icons_" android:scaleType="centerCrop"/>
-    </LinearLayout>
+            android:layout_height="120dp" android:layout_marginBottom="20px" android:id="@+id/fragmentButtons">
+    </FrameLayout>
 </LinearLayout>

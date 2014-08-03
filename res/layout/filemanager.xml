@@ -39,7 +39,7 @@
     </RelativeLayout>
     <GridView
             android:layout_width="wrap_content"
-            android:layout_height="810dp"
+            android:layout_height="604dp"
             android:id="@+id/libView" android:numColumns="4" android:longClickable="true"
             android:choiceMode="multipleChoice"/>
     <LinearLayout

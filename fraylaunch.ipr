@@ -175,5 +175,14 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
+  <component name="libraryTable">
+    <library name="android-support-v4">
+      <CLASSES>
+        <root url="jar://E:/Programs/Android/android-sdk/extras/android/support/v4/android-support-v4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
 </project>
 
